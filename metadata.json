@@ -1,0 +1,6 @@
+{
+  "name": "KineNime — Streaming Anime & Film Kurasi",
+  "description": "Platform streaming anime dan film sinema dengan login Google, daftar favorit profil, rekomendasi berbasis riwayat tontonan, dan akses Premium bebas iklan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

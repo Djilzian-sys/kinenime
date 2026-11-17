@@ -1,0 +1,166 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Profil pengguna terautentikasi Google dengan status langganan Premium.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "isPremium": {
+          "type": "boolean"
+        },
+        "premiumPlan": {
+          "type": "string",
+          "enum": ["free", "monthly", "yearly"],
+          "maxLength": 20
+        },
+        "premiumSince": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "uid",
+        "email",
+        "displayName",
+        "isPremium",
+        "premiumPlan",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "FavoriteItem": {
+      "title": "FavoriteItem",
+      "description": "Anime atau film yang disimpan pengguna ke daftar favorit.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "mediaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "mediaType": {
+          "type": "string",
+          "enum": ["anime", "movie"],
+          "maxLength": 16
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "addedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["userId", "mediaId", "mediaType", "title", "addedAt"]
+    },
+    "WatchHistoryItem": {
+      "title": "WatchHistoryItem",
+      "description": "Riwayat tontonan pengguna untuk sinkronisasi progres dan sistem rekomendasi.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "mediaId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "mediaType": {
+          "type": "string",
+          "enum": ["anime", "movie"],
+          "maxLength": 16
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "genres": {
+          "type": "array",
+          "description": "Daftar genre maksimal 5 item untuk perhitungan rekomendasi."
+        },
+        "episode": {
+          "type": "integer"
+        },
+        "progressPercent": {
+          "type": "integer"
+        },
+        "watchedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "userId",
+        "mediaId",
+        "mediaType",
+        "title",
+        "genres",
+        "episode",
+        "progressPercent",
+        "watchedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Dokumen profil pribadi pengguna termasuk status keanggotaan Premium."
+    },
+    "/users/{userId}/favorites/{mediaId}": {
+      "schema": {
+        "$ref": "#/entities/FavoriteItem"
+      },
+      "description": "Subkoleksi daftar tontonan favorit milik pengguna."
+    },
+    "/users/{userId}/watchHistory/{mediaId}": {
+      "schema": {
+        "$ref": "#/entities/WatchHistoryItem"
+      },
+      "description": "Subkoleksi riwayat tontonan pengguna untuk sistem rekomendasi."
+    }
+  }
+}
